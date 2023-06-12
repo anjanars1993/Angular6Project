@@ -1,0 +1,126 @@
+<form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Create Employee</h3>
+      </div>
+      <div class="panel-body">
+
+        <!-- <div class="form-group" [ngClass]="{'has-error':this.employeeForm.get('fullName')?.invalid &&
+        (this.employeeForm.get('fullName')?.touched || this.employeeForm.get('fullName')?.dirty)}">
+            <div class="row">
+                <label class="col-sm-2  control-label" for="fullName">Full Name</label>
+                <div class="col-sm-8">
+                    <input id="fullName" type="text" class="form-control" formControlName="fullName">
+                     {{ this.characterCount}} 
+                    <span class="help-block" *ngIf="this.employeeForm.get('fullName')?.errors?.['required'] &&
+                    (this.employeeForm.get('fullName')?.touched || this.employeeForm.get('fullName')?.dirty)">
+                    Full Name is required</span>
+                    <span class="help-block" *ngIf="(this.employeeForm.get('fullName')?.errors?.['minlength'] || this.employeeForm.get('fullName')?.errors?.['maxlength']) &&
+                    (this.employeeForm.get('fullName')?.touched || this.employeeForm.get('fullName')?.dirty)">
+                    Full Name must be having more than 1 and less than 11 characters</span>                   
+                </div>       
+            </div>
+        </div> -->
+        <div class="form-group" [ngClass]="{'has-error':this.formErrors.fullName}">
+            <div class="row">
+                <label class="col-sm-2  control-label" for="fullName">Full Name</label>
+                <div class="col-sm-8">
+                    <input id="fullName" (blur)="LoopThrough()" type="text" class="form-control" formControlName="fullName">
+                    <span class="help-block" *ngIf="this.formErrors.fullName">
+                    {{this.formErrors.fullName}}</span>             
+                </div>       
+            </div>
+        </div>
+  
+        <div class="form-group" [ngClass]="{'has-error':this.formErrors.email}">
+            <div class="row">
+                <label class="col-sm-2  control-label" for="email">Email</label>
+                <div class="col-sm-8">
+                    <input id="email" (blur)="LoopThrough()" type="text" class="form-control" formControlName="email">
+                    <span class="help-block" *ngIf="this.formErrors.email">
+                    {{this.formErrors.email}}</span>    
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" [ngClass]="{'has-error':this.formErrors.phone}">
+            <div class="row">
+                <label class="col-sm-2  control-label" for="phone">Phone</label>
+                <div class="col-sm-8">
+                    <input id="phone" (blur)="LoopThrough()" type="text" class="form-control" formControlName="phone">
+                    <span class="help-block" *ngIf="this.formErrors.phone">
+                    {{this.formErrors.phone}}</span>    
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" [ngClass]="{'has-error':this.formErrors.contactPreference}">
+            <div class="row">
+                <label class="col-sm-2 control-label">Contact Preference</label>
+                <div class="col-sm-8">
+                    <label class="radio-inline">
+                    <input type="radio" (blur)="LoopThrough()" value="email" formControlName="contactPreference">
+                    Email</label>
+                    <label class="radio-inline">
+                    <input type="radio" (blur)="LoopThrough()" value="phone" formControlName="contactPreference">
+                    Phone</label>
+                    <span class="help-block" *ngIf="this.formErrors.contactPreference">
+                        {{this.formErrors.contactPreference}}</span>   
+                </div>
+            </div>
+        </div>
+
+        <div formGroupName="skills">
+            <div class="form-group" [ngClass]="{'has-error':this.formErrors.skillName}">
+                <div class="row">
+                <label class="col-sm-2  control-label" for="skillName">Skill name</label>
+                <div class="col-sm-8">
+                <input id="skillName" (blur)="LoopThrough()" placeholder="Skill Name" type="text" class="form-control" formControlName="skillName">
+                <span class="help-block" *ngIf="this.formErrors.skillName">
+                    {{this.formErrors.skillName}}</span>      
+                </div>
+                </div>
+            </div>
+            <div class="form-group"  [ngClass]="{'has-error':this.formErrors.experienceInYears}">
+                <div class="row">
+                <label class="col-sm-2  control-label" for="skillName">Experience in years</label>
+                <div class="col-sm-8">
+                <input id="experienceInYears" (blur)="LoopThrough()" placeholder="Experience in Years" type="text" class="form-control" formControlName="experienceInYears">
+                <span class="help-block" *ngIf="this.formErrors.experienceInYears">
+                    {{this.formErrors.experienceInYears}}</span>      
+                </div>
+                </div>
+            </div>
+            <div class="form-group" [ngClass]="{'has-error':this.formErrors.proficiency}">
+                <div class="row">
+                    <label class="col-sm-2 control-label">Proficiency</label>
+                    <div class="col-sm-8">
+                        <label class="radio-inline">
+                        <input type="radio" (blur)="LoopThrough()" value="beginner" formControlName="proficiency">
+                        Beginner</label>
+                        <label class="radio-inline">
+                        <input type="radio" (blur)="LoopThrough()" value="proficient" formControlName="proficiency">
+                        Proficient</label>
+                        <label class="radio-inline">
+                        <input type="radio" (blur)="LoopThrough()" value="expert" formControlName="proficiency">
+                        Expert</label>
+                        <span class="help-block" *ngIf="this.formErrors.proficiency">
+                            {{this.formErrors.proficiency}}</span>   
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="btn-toolbar">
+            <button class="btn btn-primary" type="submit">Save</button>
+            <button class="btn btn-primary" type="button" (click)="LoadData()">Load Data</button>
+        </div>
+      </div>
+    </div>
+</form>
+<div>
+    {{this.employeeForm.controls['fullName'].value}}
+    <br>
+    {{this.employeeForm.get('fullName')?.valid}}
+</div>
