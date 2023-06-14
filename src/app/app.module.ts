@@ -9,10 +9,13 @@ import {FormsModule,ReactiveFormsModule} from  '@angular/forms'
 import { CreateEmployeesComponent } from './employees/create-employees.component';
 import { ListEmployeesComponent } from './employees/list-employees.component';
 import { Routes, RouterModule } from '@angular/router';
+import { EmployeeService } from './employees/employee.service';
+import {HttpClientModule} from '@angular/common/http'
 
 const appRoutes:Routes=[
   {path:'list',component:ListEmployeesComponent},
   {path:'create',component:CreateEmployeesComponent},
+  {path:'edit/:id',component:CreateEmployeesComponent},
   {path:'',redirectTo:'/list',pathMatch:"full"},
 ]
 
@@ -22,9 +25,9 @@ const appRoutes:Routes=[
     ListEmployeesComponent
   ],
   imports: [
-    BrowserModule,FormsModule,ReactiveFormsModule,RouterModule.forRoot(appRoutes)
+    BrowserModule,FormsModule,ReactiveFormsModule,RouterModule.forRoot(appRoutes),HttpClientModule
   ],
-  providers: [],
+  providers: [EmployeeService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
