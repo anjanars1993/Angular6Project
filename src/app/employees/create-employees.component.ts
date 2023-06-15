@@ -295,7 +295,7 @@ onSubmit()
       newEmployee.id=maxId+1;
     this._employeeService.saveEmployees(newEmployee)?.subscribe(
       (emp)=>{
-        this._router.navigate(['list']);
+        this._router.navigate(['employees/list']);
       }
     )
     })
@@ -305,7 +305,7 @@ onSubmit()
     const newEmployee:IEmployee=this.employee;
       this._employeeService.updateEmployees(newEmployee).subscribe({     
       next: () => { 
-        this._router.navigate(['list']);
+        this._router.navigate(['employees/list']);
       },
       error: (e) => console.log(e),
       complete: () => console.info('complete') 

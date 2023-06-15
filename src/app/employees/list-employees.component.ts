@@ -29,7 +29,7 @@ employees: IEmployee[];
   }
   EditEmployee(id:number)
   {
-  this._router.navigate(['/edit',id]);
+  this._router.navigate(['employees/edit',id]);
   }
   DeleteEmployee(id:number)
   {
