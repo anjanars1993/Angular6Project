@@ -13,7 +13,7 @@ export class EmployeeService{
   }
       public getEmployees():Observable<IEmployee[]>{
         //return of(this.employees).pipe(delay(1000));
-        return this._http.get<IEmployee[]>("http://localhost:3000/employees")
+        return this._http.get<IEmployee[]>("https://localhost:44369/api/EmployeesDetailedData?$expand=skills")
         .pipe(catchError(this.HandlError));
       } 
       private HandlError(err:HttpErrorResponse)
@@ -31,7 +31,7 @@ export class EmployeeService{
 
       }
       public getEmployeeById(id:number):Observable<IEmployee>{
-        return this._http.get<IEmployee>("http://localhost:3000/employees/"+id)
+        return this._http.get<IEmployee>("https://localhost:44369/api/EmployeesDetailedData/"+id+"?$expand=skills")
         .pipe(catchError(this.HandlError));
         // this.employee=this.employees.find(x=>x.id==id)!;
         // return this.employee;
@@ -44,7 +44,7 @@ export class EmployeeService{
           // employee.id=+this.getMaximumId()!+1
           // this.employees.push(employee);
           
-          return this._http.post<IEmployee>("http://localhost:3000/employees",employee)
+          return this._http.post<IEmployee>("https://localhost:44369/api/EmployeesDetailedData",employee)
           .pipe(catchError(this.HandlError))
         //}
         // else
@@ -59,7 +59,7 @@ export class EmployeeService{
           // employee.id=+this.getMaximumId()!+1
           // this.employees.push(employee);
           
-          return this._http.put<void>("http://localhost:3000/employees/"+employee.id,employee)
+          return this._http.put<void>("https://localhost:44369/api/EmployeesDetailedData/"+employee.id,employee)
           .pipe(catchError(this.HandlError))
         //}
         // else
@@ -70,7 +70,7 @@ export class EmployeeService{
       } 
       public deleteEmployee(id:number|null):Observable<void>
       {
-        return this._http.delete<void>("http://localhost:3000/employees/"+id)
+        return this._http.delete<void>("https://localhost:44369/api/EmployeesDetailedData/"+id)
         .pipe(catchError(this.HandlError));
         // const index=this.employees.findIndex(x=>x.id==id);
         // if(index!==-1)

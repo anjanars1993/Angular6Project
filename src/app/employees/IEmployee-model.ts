@@ -1,4 +1,4 @@
-import { ISkill } from './ISkill-model';
+import { Skill } from './ISkill-model';
 
 export interface IEmployee {
     id: number;
@@ -6,5 +6,5 @@ export interface IEmployee {
     email?: string;
     phone?: number;
     contactPreference: string;
-    skills: ISkill[];
+    skills: Skill[];
 }

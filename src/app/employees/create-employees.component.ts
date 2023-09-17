@@ -4,7 +4,7 @@ import { CustomEmailDomainValidator } from '../shared/custom-email-domain.valida
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from './employee.service';
 import { IEmployee } from './IEmployee-model';
-import { ISkill } from './ISkill-model';
+import { Skill } from './ISkill-model';
 
 @Component({
   selector: 'app-create-employees',
@@ -36,6 +36,7 @@ ngOnInit(): void {
     // email:['',[CreateEmployeesComponent.emailDomain('gmail.com')]],
     emailGroup:this._fb.group({
       email:['',[CustomEmailDomainValidator.emailDomain('gmail.com')]],
+      //email:[''],
       confirmEmail:['',Validators.required],
     },{validators:emailMisMatch}),
     phone:[''],
@@ -93,6 +94,8 @@ this.employeeForm.controls['contactPreference'].valueChanges.subscribe((prefered
       this.panelTitle="Edit Employee"
       this._employeeService.getEmployeeById(id).subscribe({
         next: (emp) => { 
+          console.log("123");
+          console.log(emp);
           this.SetEmployeeDetails(emp);
         },
         error: (e) => console.log(e),
@@ -122,7 +125,8 @@ SetEmployeeDetails(emp:IEmployee)
   this.employeeForm.setControl('skills',this.PatchValueForFormArray(emp.skills))
 
 }
-PatchValueForFormArray(skillSets: ISkill[]): FormArray {
+PatchValueForFormArray(skillSets: Skill[]): FormArray {
+  debugger;
   const formArray = new FormArray<FormGroup>([]);
   skillSets.forEach(s => {
     formArray.push(this._fb.group({
@@ -286,6 +290,7 @@ onSubmit()
   this.employee.phone=this.employeeForm.get('phone')?.value;
   this.employee.contactPreference=this.employeeForm.get('contactPreference')?.value;
   this.employee.fullName=this.employeeForm.get('fullName')?.value;
+  debugger;
   this.employee.skills=this.employeeForm.get('skills')?.value;
   if(this.employeeForm.get('id')?.value=='')
   {
