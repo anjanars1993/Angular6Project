@@ -1,3 +1,4 @@
+import { SubmittedFile } from './IFile-model';
 import { Skill } from './ISkill-model';
 
 export interface IEmployee {
@@ -7,4 +8,6 @@ export interface IEmployee {
     phone?: number;
     contactPreference: string;
     skills: Skill[];
+    submittedFile:SubmittedFile;
+    IsDocSigned:boolean;
 }

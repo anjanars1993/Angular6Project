@@ -5,6 +5,7 @@ import { of } from "rxjs";
 import { catchError, delay, max } from "rxjs/operators";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http"
 import { throwError } from 'rxjs';
+import { EnvelopeDetails } from "./EnvelopeDetails-model";
 
 
 @Injectable()
@@ -13,7 +14,7 @@ export class EmployeeService{
   }
       public getEmployees():Observable<IEmployee[]>{
         //return of(this.employees).pipe(delay(1000));
-        return this._http.get<IEmployee[]>("https://ars-portal.azurewebsites.net/api/EmployeesDetailedData?$expand=skills")
+        return this._http.get<IEmployee[]>("https://ars-portal.azurewebsites.net/api/EmployeesDetailedData?$expand=skills,submittedFile")
         .pipe(catchError(this.HandlError));
       } 
       private HandlError(err:HttpErrorResponse)
@@ -31,7 +32,7 @@ export class EmployeeService{
 
       }
       public getEmployeeById(id:number):Observable<IEmployee>{
-        return this._http.get<IEmployee>("https://ars-portal.azurewebsites.net/api/EmployeesDetailedData/"+id+"?$expand=skills")
+        return this._http.get<IEmployee>("https://ars-portal.azurewebsites.net/api/EmployeesDetailedData/"+id+"?$expand=skills,submittedFile")
         .pipe(catchError(this.HandlError));
         // this.employee=this.employees.find(x=>x.id==id)!;
         // return this.employee;
@@ -77,5 +78,11 @@ export class EmployeeService{
         // {
         //   this.employees.splice(index,1);
         // }
+      }
+      public BeginDocusign(envelopeDetails:EnvelopeDetails):Observable<void>
+      {
+        debugger;
+        return this._http.post<void>("https://ars-portal.azurewebsites.net/BeginDocusignProcess",envelopeDetails)
+        .pipe(catchError(this.HandlError));
       }
 }

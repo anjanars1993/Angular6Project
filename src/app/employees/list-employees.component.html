@@ -6,6 +6,7 @@
           <th>Email</th>
           <th>Phone</th>
           <th>Contact Preference</th>
+          <th>Is Document Signed</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -15,7 +16,9 @@
           <td>{{ employee.email }}</td>
           <td>{{ employee.phone }}</td>
           <td>{{ employee.contactPreference }}</td>
-          <td> <button class="btn btn-primary" (click)="EditEmployee(employee.id)">Edit</button>
+          <td>{{ employee.IsDocSigned==false?'No':'Yes' }}</td>
+          <td> <button class="btn btn-primary" (click)="Docusign(employee.id)">Send for Signature</button>
+            <button class="btn btn-primary" (click)="EditEmployee(employee.id)">Edit</button>
              <button class="btn btn-primary" (click)="DeleteEmployee(employee.id)">Delete</button></td>
         </tr>
       </tbody>

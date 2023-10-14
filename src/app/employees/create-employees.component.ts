@@ -5,6 +5,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from './employee.service';
 import { IEmployee } from './IEmployee-model';
 import { Skill } from './ISkill-model';
+import { Observable } from 'rxjs/internal/Observable';
+import { ReplaySubject } from 'rxjs/internal/ReplaySubject';
+import { SubmittedFile } from './IFile-model';
 
 @Component({
   selector: 'app-create-employees',
@@ -14,6 +17,7 @@ import { Skill } from './ISkill-model';
 export class CreateEmployeesComponent implements OnInit{
   employeeForm:FormGroup;
   panelTitle:string;
+  fileName:string;
   //characterCount:number;
   constructor(private _fb:FormBuilder,private _activatedRoute:ActivatedRoute
     ,private _employeeService:EmployeeService,private _router:Router){
@@ -41,6 +45,11 @@ ngOnInit(): void {
     },{validators:emailMisMatch}),
     phone:[''],
     contactPreference:['',[Validators.required]],
+    submittedFile:this._fb.group({
+      content:[''],
+      type:[''],
+      name:['']
+    }),
     // skills:this._fb.group({
     //   skillName:['',[Validators.required]],
     //   experienceInYears:['',[Validators.required]],
@@ -108,6 +117,40 @@ this.employeeForm.controls['contactPreference'].valueChanges.subscribe((prefered
   })
   
 }
+DownloadFile()
+{
+  debugger;
+  this.employee.submittedFile=this.employeeForm.get('submittedFile')?.value;
+  this.employee.submittedFile.content
+  const source = `data:application/pdf;base64,${this.employee.submittedFile.content}`;
+    const link = document.createElement("a");
+    link.href = source;
+    link.download = `${this.employee.submittedFile.name}`
+    link.click();
+}
+handleFileInput(files : File[]) {
+ debugger;
+ this.convertFile(files[0]).subscribe(base64 => {
+  this.employeeForm.patchValue({
+    submittedFile:{
+      content:base64,
+      type:files[0].type,
+      name:files[0].name
+    }
+  })
+  this.fileName=files[0].name
+  })
+}
+
+convertFile(file : File) : Observable<string> {
+  const result = new ReplaySubject<string>(1);
+  const reader = new FileReader();
+  reader.readAsBinaryString(file);
+  reader.onload = (event) => result.next(btoa(event.target!.result!.toString()));
+  return result;
+}
+
+
 SetEmployeeDetails(emp:IEmployee)
 {
   debugger;
@@ -120,11 +163,17 @@ SetEmployeeDetails(emp:IEmployee)
     },
     phone:emp.phone,
     contactPreference:emp.contactPreference,
+    submittedFile:{
+      content:emp.submittedFile.content,
+      type:emp.submittedFile.type,
+      name:emp.submittedFile.name
+    }
   })
 
   this.employeeForm.setControl('skills',this.PatchValueForFormArray(emp.skills))
-
+this.fileName=emp.submittedFile.name;
 }
+
 PatchValueForFormArray(skillSets: Skill[]): FormArray {
   debugger;
   const formArray = new FormArray<FormGroup>([]);
@@ -292,8 +341,10 @@ onSubmit()
   this.employee.fullName=this.employeeForm.get('fullName')?.value;
   debugger;
   this.employee.skills=this.employeeForm.get('skills')?.value;
+  this.employee.submittedFile=this.employeeForm.get('submittedFile')?.value;
   if(this.employeeForm.get('id')?.value=='')
   {
+    debugger;
     this._employeeService.getEmployees().subscribe(data => {
       const maxId=Math.max.apply(Math,data.map(obj => obj.id)); 
       const newEmployee:IEmployee=this.employee;
