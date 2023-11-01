@@ -17,7 +17,7 @@ import { SubmittedFile } from './IFile-model';
 export class CreateEmployeesComponent implements OnInit{
   employeeForm:FormGroup;
   panelTitle:string;
-  fileName:string;
+  fileName?:string;
   //characterCount:number;
   constructor(private _fb:FormBuilder,private _activatedRoute:ActivatedRoute
     ,private _employeeService:EmployeeService,private _router:Router){
@@ -164,14 +164,14 @@ SetEmployeeDetails(emp:IEmployee)
     phone:emp.phone,
     contactPreference:emp.contactPreference,
     submittedFile:{
-      content:emp.submittedFile.content,
-      type:emp.submittedFile.type,
-      name:emp.submittedFile.name
+      content:emp.submittedFile?.content,
+      type:emp.submittedFile?.type,
+      name:emp.submittedFile?.name
     }
   })
 
   this.employeeForm.setControl('skills',this.PatchValueForFormArray(emp.skills))
-this.fileName=emp.submittedFile.name;
+this.fileName=emp.submittedFile?.name;
 }
 
 PatchValueForFormArray(skillSets: Skill[]): FormArray {

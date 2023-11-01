@@ -10,7 +10,14 @@
       <li class="routerLinkActive">
         <a routerLink="employees/create">Create</a>
       </li>
+      <li class="routerLinkActive">
+        <a *ngIf="getIsLoggedIn()" (click)="LogOut()">Logout</a>
+      </li>
+      <li class="routerLinkActive">
+        <a *ngIf="getIsLoggedIn()">{{user}}</a>
+      </li>
     </ul>
   </div>
   <router-outlet></router-outlet>
 </div>
+
